@@ -1,4 +1,5 @@
 import type { HTMLPasteEventDetail } from '@editorjs/editorjs';
+import type { MoxmanGlobal } from './moxman';
 
 /**
  * Represents options for uploading, including a function to handle previewing.
@@ -40,7 +41,7 @@ export interface ActionConfig {
    * An optional action function to be executed when the tune is activated.
    */
   action?: Function;
-};
+}
 
 /**
  * UploadResponseFormat interface representing the response format expected from the backend on file uploading.
@@ -130,9 +131,9 @@ export type FeaturesConfig = {
 export interface ImageConfig {
   /**
    * Endpoints for upload, whether using file or URL.
+   * @deprecated custom cho việc mở album lên để select nên không cần config này
    */
   endpoints: {
-
     /**
      * Endpoint for file upload.
      */
@@ -178,7 +179,6 @@ export interface ImageConfig {
    * Optional custom uploader.
    */
   uploader?: {
-
     /**
      * Method to upload an image by file.
      */
@@ -199,6 +199,11 @@ export interface ImageConfig {
    * Tunes to be enabled.
    */
   features?: FeaturesConfig;
+
+  /**
+   * Moxman config
+   */
+  moxman?: MoxmanGlobal;
 }
 
 /**

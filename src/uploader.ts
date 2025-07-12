@@ -51,6 +51,44 @@ export default class Uploader {
   }
 
   /**
+   * Open Moxman file browser
+   */
+  public openMoxman(): void {
+    if (!this.config.moxman) {
+      console.error('Moxman is not configured');
+
+      return;
+    }
+
+    // *: tạo input hidden để lấy id của input
+    const input = document.createElement('input');
+
+    input.type = 'hidden';
+    input.id = 'moxman-input';
+    document.body.appendChild(input);
+
+    // *: gọi moxman.browse()
+    this.config.moxman?.browse({
+      fields: input.id,
+      view: 'thumbs',
+    });
+
+    // Listen for the change event on the hidden input
+    input.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+
+      this.onUpload({
+        success: 1,
+        file: {
+          url: target.value,
+        },
+      });
+      // Remove the input after use
+      document.body.removeChild(input);
+    });
+  }
+
+  /**
    * Handle clicks on the upload file button
    * Fires ajax.transport()
    * @param onPreview - callback fired when preview is ready

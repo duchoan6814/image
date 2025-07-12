@@ -99,6 +99,7 @@ export default class ImageTool implements BlockTool {
      */
     this.config = {
       endpoints: config.endpoints,
+      moxman: config.moxman,
       additionalRequestData: config.additionalRequestData,
       additionalRequestHeaders: config.additionalRequestHeaders,
       field: config.field,
@@ -126,11 +127,7 @@ export default class ImageTool implements BlockTool {
       api,
       config: this.config,
       onSelectFile: () => {
-        this.uploader.uploadSelectedFile({
-          onPreview: (src: string) => {
-            this.ui.showPreloader(src);
-          },
-        });
+        this.uploader.openMoxman();
       },
       readOnly,
     });
