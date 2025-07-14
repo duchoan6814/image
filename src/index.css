@@ -3,6 +3,8 @@
   --front-color: #388ae5;
   --border-color: #e8e8eb;
 
+  position: relative;
+
   &__image {
     border-radius: 3px;
     overflow: hidden;
@@ -156,6 +158,19 @@
         width: 100%;
       }
     }
+  }
+
+  &--sizestretch {
+      
+  }
+
+  &--sizecollapse {
+    width: calc(100% - 50px);
+    margin: 0 auto;
+  }
+
+  &--size-normal {
+    
   }
 
   &--caption {

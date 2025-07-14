@@ -35,8 +35,8 @@ import './index.css';
 import Ui from './ui';
 import Uploader from './uploader';
 
-import { IconAddBorder, IconStretch, IconAddBackground, IconPicture, IconText } from '@codexteam/icons';
-import type { ActionConfig, UploadResponseFormat, ImageToolData, ImageConfig, HTMLPasteEventDetailExtended, ImageSetterParam, FeaturesConfig } from './types/types';
+import { IconAddBorder, IconStretch, IconAddBackground, IconPicture, IconText, IconCollapse } from '@codexteam/icons';
+import type { ActionConfig, UploadResponseFormat, ImageToolData, ImageConfig, HTMLPasteEventDetailExtended, ImageSetterParam, FeaturesConfig, ImageSize } from './types/types';
 
 type ImageToolConstructorOptions = BlockToolConstructorOptions<ImageToolData, ImageConfig>;
 
@@ -143,6 +143,7 @@ export default class ImageTool implements BlockTool {
       file: {
         url: '',
       },
+      size: 'normal',
     };
     this.data = data;
   }
@@ -178,10 +179,25 @@ export default class ImageTool implements BlockTool {
         toggle: true,
       },
       {
-        name: 'stretched',
+        name: 'stretch',
         icon: IconStretch,
         title: 'Stretch image',
-        toggle: true,
+        toggle: false,
+        closeOnActivate: true,
+      },
+      {
+        name: 'normal',
+        icon: IconStretch,
+        title: 'Normal image',
+        toggle: false,
+        closeOnActivate: true,
+      },
+      {
+        name: 'collapse',
+        icon: IconCollapse,
+        title: 'Collapse image',
+        toggle: false,
+        closeOnActivate: true,
       },
       {
         name: 'withBackground',
@@ -237,6 +253,7 @@ export default class ImageTool implements BlockTool {
       background: 'withBackground',
       stretch: 'stretched',
       caption: 'caption',
+      size: 'size',
     };
 
     if (this.config.features?.caption === 'optional') {
@@ -269,6 +286,10 @@ export default class ImageTool implements BlockTool {
         currentState = this.isCaptionEnabled ?? currentState;
       }
 
+      if (['normal', 'stretch', 'collapse'].includes(tune.name)) {
+        currentState = this?._data?.size === tune.name as ImageSize;
+      }
+
       return currentState;
     };
 
@@ -278,6 +299,7 @@ export default class ImageTool implements BlockTool {
       name: tune.name,
       toggle: tune.toggle,
       isActive: isActive(tune),
+      closeOnActivate: tune.closeOnActivate,
       onActivate: () => {
         /** If it'a user defined tune, execute it's callback stored in action property */
         if (typeof tune.action === 'function') {
@@ -285,6 +307,13 @@ export default class ImageTool implements BlockTool {
 
           return;
         }
+
+        if (['normal', 'stretch', 'collapse'].includes(tune.name)) {
+          this.setSize(tune.name as ImageSize);
+
+          return;
+        }
+
         let newState = !isActive(tune);
 
         /**
@@ -485,13 +514,34 @@ export default class ImageTool implements BlockTool {
       /**
        * Wait until the API is ready
        */
-      Promise.resolve().then(() => {
-        this.block.stretched = value;
-      })
+      Promise.resolve()
+        .then(() => {
+          this.block.stretched = value;
+        })
         .catch((err) => {
           console.error(err);
         });
     }
+  }
+
+  /**
+   * Updates the image size and applies the corresponding UI tune.
+   * @param size - The new size to set for the image.
+   */
+  private setSize(size: ImageSize): void {
+    this._data.size = size;
+    this.ui.replaceTune('size', size);
+
+    /**
+     * Wait until the API is ready
+     */
+    Promise.resolve()
+      .then(() => {
+        this.block.stretched = size === 'stretch';
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   /**

@@ -41,6 +41,11 @@ export interface ActionConfig {
    * An optional action function to be executed when the tune is activated.
    */
   action?: Function;
+
+  /**
+   * An optional flag indicating whether the tune should close when activated.
+   */
+  closeOnActivate?: boolean;
 }
 
 /**
@@ -64,6 +69,8 @@ export interface UploadResponseFormat<AdditionalFileData = {}> {
     url: string;
   } & AdditionalFileData;
 }
+
+export type ImageSize = 'normal' | 'stretch' | 'collapse';
 
 /**
  * ImageToolData type representing the input and output data format for the image tool, including optional custome actions.
@@ -99,6 +106,12 @@ export type ImageToolData<Actions = {}, AdditionalFileData = {}> = {
      */
     url: string;
   } & AdditionalFileData;
+
+  /**
+   * The size of the image.
+   */
+  size: ImageSize;
+
 } & (Actions extends Record<string, boolean> ? Actions : {});
 
 /**

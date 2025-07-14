@@ -158,7 +158,33 @@ export default class Ui {
    * @param status - true for enable, false for disable
    */
   public applyTune(tuneName: string, status: boolean): void {
-    this.nodes.wrapper.classList.toggle(`${this.CSS.wrapper}--${tuneName}`, status);
+    this.nodes.wrapper.classList.toggle(
+      `${this.CSS.wrapper}--${tuneName}`,
+      status
+    );
+  }
+
+  /**
+   * Replace old tune class with new tune class.
+   * Removes all previous tune classes and adds the new one.
+   * @param tuneName - the new tune class to apply
+   * @param value - the new value for the tune class
+   */
+  public replaceTune(tuneName: string, value: string): void {
+    // Remove all classes that match the tune pattern
+    const wrapper = this.nodes.wrapper;
+
+    const base = this.CSS.wrapper;
+
+    // Remove all classes that start with `${base}--${tuneName}`
+    Array.from(wrapper.classList).forEach((cls) => {
+      if (cls.startsWith(`${base}--${tuneName}`)) {
+        wrapper.classList.remove(cls);
+      }
+    });
+
+    // Add the new tune class
+    wrapper.classList.add(`${base}--${tuneName}${value}`);
   }
 
   /**
