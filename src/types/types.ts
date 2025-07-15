@@ -46,6 +46,11 @@ export interface ActionConfig {
    * An optional flag indicating whether the tune should close when activated.
    */
   closeOnActivate?: boolean;
+
+  /**
+   * An optional parent key for the tune.
+   */
+  parentKey?: string;
 }
 
 /**

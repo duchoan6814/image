@@ -184,6 +184,7 @@ export default class ImageTool implements BlockTool {
         title: 'Large',
         toggle: false,
         closeOnActivate: true,
+        parentKey: 'size',
       },
       {
         name: 'normal',
@@ -191,6 +192,7 @@ export default class ImageTool implements BlockTool {
         title: 'Normal',
         toggle: false,
         closeOnActivate: true,
+        parentKey: 'size',
       },
       {
         name: 'small',
@@ -198,6 +200,7 @@ export default class ImageTool implements BlockTool {
         title: 'Small',
         toggle: false,
         closeOnActivate: true,
+        parentKey: 'size',
       },
       {
         name: 'withBackground',
@@ -422,8 +425,14 @@ export default class ImageTool implements BlockTool {
     this._data.caption = data.caption || '';
     this.ui.fillCaption(this._data.caption);
 
-    ImageTool.tunes.forEach(({ name: tune }) => {
+    ImageTool.tunes.forEach(({ name: tune, parentKey }) => {
       const value = typeof data[tune as keyof ImageToolData] !== 'undefined' ? data[tune as keyof ImageToolData] === true || data[tune as keyof ImageToolData] === 'true' : false;
+
+      if (parentKey === 'size') {
+        this.setSize(data?.size ?? 'normal');
+
+        return;
+      }
 
       this.setTune(tune as keyof ImageToolData, value);
     });
