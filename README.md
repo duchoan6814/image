@@ -135,6 +135,7 @@ This Tool returns `data` with following format
 | withBorder     | `boolean` | add border to image             |
 | withBackground | `boolean` | need to add background          |
 | stretched      | `boolean` | stretch image to screen's width |
+| size           | `large` \| `normal` \| `small` | Dùng cái này thay cho stretched |
 
 
 ```json
@@ -148,6 +149,7 @@ This Tool returns `data` with following format
         "withBorder" : false,
         "withBackground" : false,
         "stretched" : true,
+        "size" : "normal",
     }
 }
 ```
