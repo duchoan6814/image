@@ -160,11 +160,11 @@
     }
   }
 
-  &--sizestretch {
+  &--size-large {
       
   }
 
-  &--sizecollapse {
+  &--size-small {
     width: calc(100% - 50px);
     margin: 0 auto;
   }

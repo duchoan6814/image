@@ -178,13 +178,13 @@ export default class Ui {
 
     // Remove all classes that start with `${base}--${tuneName}`
     Array.from(wrapper.classList).forEach((cls) => {
-      if (cls.startsWith(`${base}--${tuneName}`)) {
+      if (cls.startsWith(`${base}--${tuneName}-`)) {
         wrapper.classList.remove(cls);
       }
     });
 
     // Add the new tune class
-    wrapper.classList.add(`${base}--${tuneName}${value}`);
+    wrapper.classList.add(`${base}--${tuneName}-${value}`);
   }
 
   /**

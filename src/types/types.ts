@@ -70,7 +70,7 @@ export interface UploadResponseFormat<AdditionalFileData = {}> {
   } & AdditionalFileData;
 }
 
-export type ImageSize = 'normal' | 'stretch' | 'collapse';
+export type ImageSize = 'normal' | 'large' | 'small';
 
 /**
  * ImageToolData type representing the input and output data format for the image tool, including optional custome actions.

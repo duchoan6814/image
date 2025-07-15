@@ -31,10 +31,10 @@
 import type { TunesMenuConfig } from '@editorjs/editorjs/types/tools';
 import type { API, ToolboxConfig, PasteConfig, BlockToolConstructorOptions, BlockTool, BlockAPI, PasteEvent, PatternPasteEventDetail, FilePasteEventDetail } from '@editorjs/editorjs';
 import './index.css';
-
 import Ui from './ui';
 import Uploader from './uploader';
 
+import { IconNormalSize } from './Icons';
 import { IconAddBorder, IconStretch, IconAddBackground, IconPicture, IconText, IconCollapse } from '@codexteam/icons';
 import type { ActionConfig, UploadResponseFormat, ImageToolData, ImageConfig, HTMLPasteEventDetailExtended, ImageSetterParam, FeaturesConfig, ImageSize } from './types/types';
 
@@ -179,23 +179,23 @@ export default class ImageTool implements BlockTool {
         toggle: true,
       },
       {
-        name: 'stretch',
+        name: 'large',
         icon: IconStretch,
-        title: 'Stretch image',
+        title: 'Large',
         toggle: false,
         closeOnActivate: true,
       },
       {
         name: 'normal',
-        icon: IconStretch,
-        title: 'Normal image',
+        icon: IconNormalSize,
+        title: 'Normal',
         toggle: false,
         closeOnActivate: true,
       },
       {
-        name: 'collapse',
+        name: 'small',
         icon: IconCollapse,
-        title: 'Collapse image',
+        title: 'Small',
         toggle: false,
         closeOnActivate: true,
       },
@@ -286,7 +286,7 @@ export default class ImageTool implements BlockTool {
         currentState = this.isCaptionEnabled ?? currentState;
       }
 
-      if (['normal', 'stretch', 'collapse'].includes(tune.name)) {
+      if (['normal', 'large', 'small'].includes(tune.name)) {
         currentState = this?._data?.size === tune.name as ImageSize;
       }
 
@@ -308,7 +308,7 @@ export default class ImageTool implements BlockTool {
           return;
         }
 
-        if (['normal', 'stretch', 'collapse'].includes(tune.name)) {
+        if (['normal', 'large', 'small'].includes(tune.name)) {
           this.setSize(tune.name as ImageSize);
 
           return;
@@ -537,7 +537,7 @@ export default class ImageTool implements BlockTool {
      */
     Promise.resolve()
       .then(() => {
-        this.block.stretched = size === 'stretch';
+        this.block.stretched = size === 'large';
       })
       .catch((err) => {
         console.error(err);
